@@ -18,8 +18,8 @@ protocol CitySearchViewModelProtocol {
 
 class CitySearchViewModel {
 	func transform(input: Input) -> Output {
-		let cityName = BehaviorSubject<String>(value: "")
-		let cityTemperature = BehaviorSubject<String>(value: "")
+		let cityName = BehaviorSubject<String>(value: "City loading…")
+		let cityTemperature = BehaviorSubject<String>(value: "Temperature loading…")
 		let weatherIcon = BehaviorSubject<UIImage>(value: UIImage())
 
 		return Output(

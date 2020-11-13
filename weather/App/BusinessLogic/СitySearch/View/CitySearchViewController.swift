@@ -8,25 +8,24 @@
 import RxSwift
 import RxCocoa
 
-class CitySearchViewController: UIViewController, UISearchBarDelegate {
+class CitySearchViewController: UIViewController,
+								UISearchBarDelegate {
 	
 	var viewModel: CitySearchViewModel!
+	var citySearchView: CitySearchView!
 	let disposeBag = DisposeBag()
-
-	@IBOutlet weak var cityName: UILabel!
-	@IBOutlet weak var cityTemperature: UILabel!
-	@IBOutlet weak var weatherIcon: UIImageView!
-	@IBOutlet weak var searchBar: UISearchBar!
-	
 
     override func viewDidLoad() {
         super.viewDidLoad()
-		self.searchBar.delegate = self
+
+		self.view = citySearchView
+
+		self.citySearchView.searchBar.delegate = self
 		self.setUpBindings()
     }
 	func setUpBindings() {
 		let input = CitySearchViewModel.Input(
-			cityName: searchBar.rx.text
+			cityName: citySearchView.searchBar.rx.text
 				.orEmpty
 				.debounce(DispatchTimeInterval.milliseconds(500),
 						  scheduler: MainScheduler.instance)
@@ -35,13 +34,13 @@ class CitySearchViewController: UIViewController, UISearchBarDelegate {
 		)
 		let output = CitySearchViewModel().transform(input: input)
 		output.cityName
-			.bind(to: cityName.rx.text)
+			.bind(to: citySearchView.cityName.rx.text)
 			.disposed(by: disposeBag)
 		output.cityTemperature
-			.bind(to: cityTemperature.rx.text)
+			.bind(to: citySearchView.cityTemperature.rx.text)
 			.disposed(by: disposeBag)
 		output.weatherIcon
-			.bind(to: weatherIcon.rx.image)
+			.bind(to: citySearchView.weatherIcon.rx.image)
 			.disposed(by: disposeBag)
 	}
 }

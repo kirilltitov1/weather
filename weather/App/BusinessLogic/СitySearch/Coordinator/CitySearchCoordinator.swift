@@ -5,20 +5,42 @@
 //  Created by Kirill Titov on 13.11.2020.
 //
 
-import Foundation
 import UIKit
+import RxSwift
+import RxCocoa
 
-class CitySearchCoordinator: BaseCoordinator {
+final class CitySearchCoordinator: BaseCoordinator {
+	
+	let disposeBag = DisposeBag()
 	override func start() {
-		let viewController = UIStoryboard.init(name: "SitySearch", bundle: nil).instantiateInitialViewController()
-		guard let authViewController = viewController as? CitySearchViewController else { return }
+		let viewController = UIStoryboard.init(name: "CitySearch", bundle: nil).instantiateInitialViewController()
+		guard let citySearchViewController = viewController as? CitySearchViewController else { return }
 		
-		// Coordinator initializes and injects viewModel
+		// Coordinator initializes and injects view & viewModel
+		let view = UINib(nibName: "CitySearchView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! CitySearchView
 		let viewModel = CitySearchViewModel()
-		authViewController.viewModel = viewModel
+
+		citySearchViewController.viewModel = viewModel
+		citySearchViewController.citySearchView = view
 		
 		// Coordinator subscribes to events and notifies parentCoordinator
+		view.additionalInfo.rx.tap
+			.subscribe { [weak self] _ in
+				self?.goToAdditionalInfo()
+			}.disposed(by: disposeBag)
 		
-		self.navigationController.viewControllers = [authViewController]
+		self.navigationController.viewControllers = [citySearchViewController]
+	}
+}
+
+protocol AdditioalCityInfoListener {
+	func goToAdditionalInfo()
+}
+
+extension CitySearchCoordinator: AdditioalCityInfoListener {
+	func goToAdditionalInfo() {
+		let coordinator = AdditionalCityInfoCoordinator()
+		coordinator.navigationController = self.navigationController
+		self.start(coordinator: coordinator)
 	}
 }

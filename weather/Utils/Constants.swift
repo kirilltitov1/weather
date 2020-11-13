@@ -8,5 +8,7 @@
 import Foundation
 
 final class Constants {
-	
+	final class Path {
+		static let weathermapIcon =  "http://openweathermap.org/img/wn/"
+	}
 }
