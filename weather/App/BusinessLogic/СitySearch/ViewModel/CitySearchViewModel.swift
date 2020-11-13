@@ -7,6 +7,7 @@
 
 import RxSwift
 import RxCocoa
+import Alamofire
 
 protocol CitySearchViewModelProtocol {
 	associatedtype Input
@@ -17,16 +18,26 @@ protocol CitySearchViewModelProtocol {
 
 class CitySearchViewModel {
 	func transform(input: Input) -> Output {
-		return Output()
+		let cityName = BehaviorSubject<String>(value: "")
+		let cityTemperature = BehaviorSubject<String>(value: "")
+		let weatherIcon = BehaviorSubject<UIImage>(value: UIImage())
+
+		return Output(
+			cityName: cityName,
+			cityTemperature: cityTemperature,
+			weatherIcon: weatherIcon
+		)
 	}
 }
 
 extension CitySearchViewModel: CitySearchViewModelProtocol {
 	struct Input {
-		
+		let cityName: Observable<String>
 	}
 
 	struct Output {
-		
+		let cityName: BehaviorSubject<String>
+		let cityTemperature: BehaviorSubject<String>
+		let weatherIcon: BehaviorSubject<UIImage>
 	}
 }
