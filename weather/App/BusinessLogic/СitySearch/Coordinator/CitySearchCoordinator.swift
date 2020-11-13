@@ -6,17 +6,19 @@
 //
 
 import Foundation
+import UIKit
 
 class CitySearchCoordinator: BaseCoordinator {
 	override func start() {
-		let viewController = CitySearchViewController()
+		let viewController = UIStoryboard.init(name: "SitySearch", bundle: nil).instantiateInitialViewController()
+		guard let authViewController = viewController as? CitySearchViewController else { return }
 		
 		// Coordinator initializes and injects viewModel
 		let viewModel = CitySearchViewModel()
-		viewController.viewModel = viewModel
+		authViewController.viewModel = viewModel
 		
 		// Coordinator subscribes to events and notifies parentCoordinator
 		
-		self.navigationController.viewControllers = [viewController]
+		self.navigationController.viewControllers = [authViewController]
 	}
 }
