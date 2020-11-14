@@ -28,7 +28,7 @@ final class CitySearchCoordinator: BaseCoordinator {
 			.subscribe { [weak self] _ in
 				self?.goToAdditionalInfo(
 					tittle: citySearchViewController.citySearchView.cityName.text,
-					currentCity: try! citySearchViewController.viewModel.weatherForCurrentCity.value()
+					currentCity: citySearchViewController.viewModel.weatherForCurrentCity
 				)
 			}.disposed(by: disposeBag)
 		

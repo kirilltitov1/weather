@@ -16,9 +16,9 @@ protocol CitySearchViewModelProtocol {
 	func transform(input: Input) -> Output
 }
 
-class CitySearchViewModel {
+final class CitySearchViewModel {
 	var disposeBag = DisposeBag()
-	var weatherForCurrentCity = BehaviorSubject<[CityResponse.List]>(value: [])
+	var weatherForCurrentCity: [CityResponse.List] = []
 	func transform(input: Input) -> Output {
 		let cityName = BehaviorSubject<String>(value: "City loading…")
 		let cityTemperature = BehaviorSubject<String>(value: "Temperature loading…")
@@ -26,11 +26,12 @@ class CitySearchViewModel {
 
 		input.cityName.subscribe { strCityName in
 			CitySearchModel.loadWeather(byStringCity: strCityName)
+				.debug("loadWeather")
 				.observeOn(MainScheduler.instance)
 				.subscribe(
 					onSuccess: { response in
-						WeatherSingletone.shared.weather = response.list
-						self.weatherForCurrentCity.onNext(response.list)
+//						WeatherSingletone.shared.weather = response.list
+						self.weatherForCurrentCity = response.list
 						guard let current = response.list.first else { return }
 						cityName.onNext(strCityName)
 						cityTemperature.onNext(String(current.main.temp))
@@ -39,7 +40,7 @@ class CitySearchViewModel {
 					},
 					onError: { error in
 						// не найден город
-						self.weatherForCurrentCity.onNext([])
+						self.weatherForCurrentCity = []
 						cityName.onNext("...")
 						cityTemperature.onNext("...")
 						weatherStrIcon.onNext("...")
@@ -51,7 +52,7 @@ class CitySearchViewModel {
 				cityName.asObserver(),
 				cityTemperature.asObserver()
 			)
-			.map { $0 != "..." && $1 != "..."}
+			.map { $0 != "..." && $1 != "..." }
 			.startWith(false)
 
 		return Output(

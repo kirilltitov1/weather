@@ -17,11 +17,11 @@ final class AdditionalCityInfoCoordinator: BaseCoordinator {
 		// Coordinator initializes and injects viewModel
 		let viewModel = AdditionalCityInfoViewModel()
 		additionalCityInfoViewController.viewModel = viewModel
-//		additionalCityInfoViewController.viewModel.weatherForCurrentCity = currentCity ?? []
+//		additionalCityInfoViewController.weather = currentCity ?? []
 		additionalCityInfoViewController.title = title
 		
 		// Coordinator subscribes to events and notifies parentCoordinator
-		
-		self.navigationController.viewControllers = [additionalCityInfoViewController]
+		self.navigationController.setNavigationBarHidden(false, animated: true)
+		self.navigationController.viewControllers.append(additionalCityInfoViewController)
 	}
 }

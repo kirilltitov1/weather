@@ -32,7 +32,7 @@ class CitySearchViewController: UIViewController,
 				.filter { !$0.isEmpty }
 				.asObservable()
 		)
-		let output = CitySearchViewModel().transform(input: input)
+		let output = viewModel.transform(input: input)
 		output.cityName
 			.bind(to: citySearchView.cityName.rx.text)
 			.disposed(by: disposeBag)

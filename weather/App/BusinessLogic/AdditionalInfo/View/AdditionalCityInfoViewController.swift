@@ -14,7 +14,7 @@ class AdditionalCityInfoViewController: UIViewController {
 	let CITY_CELL_IDENTIFIER = "AdditionalCityInfo"
 
 	var viewModel: AdditionalCityInfoViewModel!
-	var weather: [CityResponse.List] = WeatherSingletone.shared.weather
+	var weather: [CityResponse.List] = [] //WeatherSingletone.shared.weather
 	
 	let disposeBag = DisposeBag()
 	
@@ -27,15 +27,17 @@ class AdditionalCityInfoViewController: UIViewController {
 		tableView.dataSource = self
 		
 		self.regCell()
-//		self.setUpBindings()
+		self.setUpBindings()
     }
 	func setUpBindings() {
 		let input = AdditionalCityInfoViewModel.Input(city: self.title ?? "")
 		let output = viewModel.transform(input: input)
-		output.weatherForCurrentCity.subscribeOn(MainScheduler.instance).subscribe { respose in
-			self.weather = respose.element ?? []
-			self.tableView.reloadData()
-		}.disposed(by: disposeBag)
+		output.weatherForCurrentCity
+			.subscribeOn(MainScheduler.instance)
+			.subscribe { respose in
+				self.weather = respose.element ?? []
+				self.tableView.reloadData()
+			}.disposed(by: disposeBag)
 	}
 }
 

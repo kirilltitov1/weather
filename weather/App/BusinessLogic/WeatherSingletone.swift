@@ -6,14 +6,14 @@
 //
 
 import Foundation
-
-class WeatherSingletone {
-
-	var weather: [CityResponse.List] = []
-
-	static var shared: WeatherSingletone = {
-		let instance = WeatherSingletone()
-		return instance
-	}()
-	private init() {}
-}
+//
+//class WeatherSingletone {
+//
+//	var weather: [CityResponse.List] = []
+//
+//	static var shared: WeatherSingletone = {
+//		let instance = WeatherSingletone()
+//		return instance
+//	}()
+//	private init() {}
+//}

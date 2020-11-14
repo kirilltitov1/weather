@@ -25,6 +25,6 @@ class AdditionalCityInfoTableViewCell: UITableViewCell {
     
 	func setup(icon: String, temp: Double) {
 		self.icon.loadImageUsingUrlString(urlString: Constants.Path.weathermapIcon + icon + ".png")
-		self.temp.text = String(temp)
+		self.temp.text = "temp = "+String(temp)+"Cº"
 	}
 }

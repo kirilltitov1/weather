@@ -16,7 +16,7 @@ protocol AdditionalCityInfoViewModelProtocol {
 	func transform(input: Input) -> Output
 }
 
-class AdditionalCityInfoViewModel {
+final class AdditionalCityInfoViewModel {
 //	var weatherForCurrentCity: [CityResponse.List] = []
 	let disposeBag = DisposeBag()
 
