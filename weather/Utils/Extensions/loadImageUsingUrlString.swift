@@ -14,6 +14,8 @@ extension UIImageView {
 	func loadImageUsingUrlString(urlString: String) {
 		image = nil
 
+		if urlString.isEmpty { return }
+		
 		// cache version of image
 		if let imageFromCache = imageCache.object(forKey: urlString as NSString ) as? UIImage {
 			self.image = imageFromCache
@@ -24,9 +26,9 @@ extension UIImageView {
 		AF.download(urlString).responseData { response in
 			switch response.result {
 			case .success:
-				let imageToCach = UIImage(data: response.value!)
+				guard let imageToCach = UIImage(data: response.value!) else { return }
 				DispatchQueue.main.async {
-					imageCache.setObject(imageToCach!, forKey: urlString as NSString)
+					imageCache.setObject(imageToCach, forKey: urlString as NSString)
 					self.image = imageToCach
 				}
 			case let .failure(error):

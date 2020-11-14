@@ -39,8 +39,11 @@ class CitySearchViewController: UIViewController,
 		output.cityTemperature
 			.bind(to: citySearchView.cityTemperature.rx.text)
 			.disposed(by: disposeBag)
-		output.weatherIcon
-			.bind(to: citySearchView.weatherIcon.rx.image)
-			.disposed(by: disposeBag)
+		
+		output.weatherIcon.debug("weatherIcon").subscribe { [weak self] strImage in
+			
+			self?.citySearchView.weatherIcon
+				.loadImageUsingUrlString(urlString: String(Constants.Path.weathermapIcon + strImage + "@2x.png"))
+		}.disposed(by: disposeBag)
 	}
 }
