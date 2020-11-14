@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 protocol AdditionalCityInfoViewModelProtocol {
 	associatedtype Input
@@ -15,16 +17,25 @@ protocol AdditionalCityInfoViewModelProtocol {
 }
 
 class AdditionalCityInfoViewModel {
+//	var weatherForCurrentCity: [CityResponse.List] = []
+	let disposeBag = DisposeBag()
+
 	func transform(input: Input) -> Output {
-		return Output()
+		let weatherForCurrentCity = BehaviorSubject<[CityResponse.List]>(value: [])
+		CitySearchModel.loadWeather(byStringCity: input.city)
+			.subscribeOn(MainScheduler.instance)
+			.subscribe { response in
+				weatherForCurrentCity.onNext(response.list)
+			}.disposed(by: disposeBag)
+		return Output(weatherForCurrentCity: weatherForCurrentCity)
 	}
 }
 
 extension AdditionalCityInfoViewModel: AdditionalCityInfoViewModelProtocol {
 	struct Input {
-		
+		let city: String
 	}
 	struct Output {
-		
+		let weatherForCurrentCity: BehaviorSubject<[CityResponse.List]>
 	}
 }

@@ -20,13 +20,16 @@ final class CitySearchCoordinator: BaseCoordinator {
 		let view = UINib(nibName: "CitySearchView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! CitySearchView
 		let viewModel = CitySearchViewModel()
 
-		citySearchViewController.viewModel = viewModel
 		citySearchViewController.citySearchView = view
+		citySearchViewController.viewModel = viewModel
 		
 		// Coordinator subscribes to events and notifies parentCoordinator
 		view.additionalInfo.rx.tap
 			.subscribe { [weak self] _ in
-				self?.goToAdditionalInfo()
+				self?.goToAdditionalInfo(
+					tittle: citySearchViewController.citySearchView.cityName.text,
+					currentCity: try! citySearchViewController.viewModel.weatherForCurrentCity.value()
+				)
 			}.disposed(by: disposeBag)
 		
 		self.navigationController.viewControllers = [citySearchViewController]
@@ -34,12 +37,14 @@ final class CitySearchCoordinator: BaseCoordinator {
 }
 
 protocol AdditioalCityInfoListener {
-	func goToAdditionalInfo()
+	func goToAdditionalInfo(tittle: String?, currentCity: [CityResponse.List])
 }
 
 extension CitySearchCoordinator: AdditioalCityInfoListener {
-	func goToAdditionalInfo() {
+	func goToAdditionalInfo(tittle: String?, currentCity: [CityResponse.List]) {
 		let coordinator = AdditionalCityInfoCoordinator()
+		coordinator.currentCity = currentCity
+		coordinator.title = tittle
 		coordinator.navigationController = self.navigationController
 		self.start(coordinator: coordinator)
 	}

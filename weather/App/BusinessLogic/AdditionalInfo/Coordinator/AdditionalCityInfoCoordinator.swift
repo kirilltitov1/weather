@@ -8,6 +8,8 @@
 import UIKit
 
 final class AdditionalCityInfoCoordinator: BaseCoordinator {
+	var title: String?
+	var currentCity: [CityResponse.List]?
 	override func start() {
 		let viewController = UIStoryboard.init(name: "AdditionalCityInfo", bundle: nil).instantiateInitialViewController()
 		guard let additionalCityInfoViewController = viewController as? AdditionalCityInfoViewController else { return }
@@ -15,6 +17,8 @@ final class AdditionalCityInfoCoordinator: BaseCoordinator {
 		// Coordinator initializes and injects viewModel
 		let viewModel = AdditionalCityInfoViewModel()
 		additionalCityInfoViewController.viewModel = viewModel
+//		additionalCityInfoViewController.viewModel.weatherForCurrentCity = currentCity ?? []
+		additionalCityInfoViewController.title = title
 		
 		// Coordinator subscribes to events and notifies parentCoordinator
 		

@@ -10,31 +10,32 @@ import Alamofire
 import RxSwift
 import RxCocoa
 
-struct CityResponse: Codable {
+
+class CityResponse: Codable {
 	let cod: String
 	let list: [List]
 	
-	struct List: Codable {
+	class List: Codable {
 		let main: Main
 		let weather: [Weather]
 		
-		struct Main: Codable {
+		class Main: Codable {
 			let temp: Double
 		}
-		struct Weather: Codable {
+		class Weather: Codable {
 			let icon: String
 		}
 	}
 }
-
-let cacher = ResponseCacher(behavior: .cache)
-let responseCache = NSCache<NSString, AnyObject>()
 
 protocol WeatherServiceProtocol {
 	static func loadWeather(byStringCity city: String) -> Single<CityResponse>
 	func loadWeatherIcon(byStringName name: String) -> Single<UIImage>
 }
 
+//let cacher = ResponseCacher(behavior: .cache)
+//https://github.com/Alamofire/Alamofire/blob/master/Documentation/AdvancedUsage.md#cachedresponsehandler
+let responseCache = NSCache<NSString, AnyObject>()
 final class CitySearchModel: WeatherServiceProtocol {
 
 	static func loadWeather(byStringCity city: String) -> Single<CityResponse> {
@@ -43,14 +44,23 @@ final class CitySearchModel: WeatherServiceProtocol {
 											 "appid" : Constants.appid,
 											 "mode" : "JSON",
 											 "units" : "metric"]
-		
+
 			return Single<CityResponse>.create { single in
+				
+				// response from cache
+				if let responseFromCache = responseCache.object(forKey: city as NSString ) as? CityResponse {
+					single(.success(responseFromCache))
+					return Disposables.create()
+				}
 
 				AF.request(url, method: .get, parameters: parameters)
-					.cacheResponse(using: cacher)
 					.responseDecodable(of: CityResponse.self) { response in
 						switch response.result {
 						case let .success(success):
+							// response into cache
+							DispatchQueue.main.async {
+								responseCache.setObject(success, forKey: city as NSString)
+							}
 							single(.success(success))
 						case let .failure(error):
 							print("AuthAPI.auth() \(error)")

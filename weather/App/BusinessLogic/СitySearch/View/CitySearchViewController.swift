@@ -41,9 +41,11 @@ class CitySearchViewController: UIViewController,
 			.disposed(by: disposeBag)
 		
 		output.weatherIcon.debug("weatherIcon").subscribe { [weak self] strImage in
-			
 			self?.citySearchView.weatherIcon
 				.loadImageUsingUrlString(urlString: String(Constants.Path.weathermapIcon + strImage + "@2x.png"))
 		}.disposed(by: disposeBag)
+		output.isButtonEnabled
+			.bind(to: citySearchView.additionalInfo.rx.isEnabled)
+			.disposed(by: disposeBag)
 	}
 }

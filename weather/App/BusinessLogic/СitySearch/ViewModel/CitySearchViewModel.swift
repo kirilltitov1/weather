@@ -18,6 +18,7 @@ protocol CitySearchViewModelProtocol {
 
 class CitySearchViewModel {
 	var disposeBag = DisposeBag()
+	var weatherForCurrentCity = BehaviorSubject<[CityResponse.List]>(value: [])
 	func transform(input: Input) -> Output {
 		let cityName = BehaviorSubject<String>(value: "City loading…")
 		let cityTemperature = BehaviorSubject<String>(value: "Temperature loading…")
@@ -28,6 +29,8 @@ class CitySearchViewModel {
 				.observeOn(MainScheduler.instance)
 				.subscribe(
 					onSuccess: { response in
+						WeatherSingletone.shared.weather = response.list
+						self.weatherForCurrentCity.onNext(response.list)
 						guard let current = response.list.first else { return }
 						cityName.onNext(strCityName)
 						cityTemperature.onNext(String(current.main.temp))
@@ -36,16 +39,26 @@ class CitySearchViewModel {
 					},
 					onError: { error in
 						// не найден город
+						self.weatherForCurrentCity.onNext([])
 						cityName.onNext("...")
 						cityTemperature.onNext("...")
 						weatherStrIcon.onNext("...")
 					}).disposed(by: self.disposeBag)
 		}.disposed(by: disposeBag)
+		
+		let isLoginButtonEnabled = Observable
+			.combineLatest(
+				cityName.asObserver(),
+				cityTemperature.asObserver()
+			)
+			.map { $0 != "..." && $1 != "..."}
+			.startWith(false)
 
 		return Output(
 			cityName: cityName,
 			cityTemperature: cityTemperature,
-			weatherIcon: weatherStrIcon
+			weatherIcon: weatherStrIcon,
+			isButtonEnabled: isLoginButtonEnabled
 		)
 	}
 }
@@ -59,5 +72,6 @@ extension CitySearchViewModel: CitySearchViewModelProtocol {
 		let cityName: BehaviorSubject<String>
 		let cityTemperature: BehaviorSubject<String>
 		let weatherIcon: BehaviorSubject<String>
+		let isButtonEnabled: Observable<Bool>
 	}
 }
