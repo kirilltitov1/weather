@@ -20,6 +20,10 @@ class AdditionalCityInfoViewController: UIViewController {
 	
 	@IBOutlet weak var tableView: UITableView!
 
+	override func viewWillLayoutSubviews() {
+		self.navigationController?.setNavigationBarHidden(false, animated: true)
+	}
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 

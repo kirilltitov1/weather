@@ -15,7 +15,6 @@ final class AppCoordinator: BaseCoordinator {
 	override func start(window: UIWindow) {
 		self.window = window
 
-		self.navigationController.navigationBar.isHidden = true
 		self.window.rootViewController = self.navigationController
 		self.window.makeKeyAndVisible()
 

@@ -32,6 +32,7 @@ final class CitySearchCoordinator: BaseCoordinator {
 				)
 			}.disposed(by: disposeBag)
 		
+		self.navigationController.setNavigationBarHidden(true, animated: false)
 		self.navigationController.viewControllers = [citySearchViewController]
 	}
 }

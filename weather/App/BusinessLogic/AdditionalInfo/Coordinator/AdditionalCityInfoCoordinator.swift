@@ -21,7 +21,6 @@ final class AdditionalCityInfoCoordinator: BaseCoordinator {
 		additionalCityInfoViewController.title = title
 		
 		// Coordinator subscribes to events and notifies parentCoordinator
-		self.navigationController.setNavigationBarHidden(false, animated: true)
 		self.navigationController.viewControllers.append(additionalCityInfoViewController)
 	}
 }
