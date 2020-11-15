@@ -14,7 +14,7 @@ class AdditionalCityInfoViewController: UIViewController {
 	let CITY_CELL_IDENTIFIER = "AdditionalCityInfo"
 
 	var viewModel: AdditionalCityInfoViewModel!
-	var weather: [CityResponse.List] = [] //WeatherSingletone.shared.weather
+	var weather: [CityResponse.List] = []
 	
 	let disposeBag = DisposeBag()
 	

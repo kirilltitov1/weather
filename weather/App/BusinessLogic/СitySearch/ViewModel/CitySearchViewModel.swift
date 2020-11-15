@@ -30,7 +30,6 @@ final class CitySearchViewModel {
 				.observeOn(MainScheduler.instance)
 				.subscribe(
 					onSuccess: { response in
-//						WeatherSingletone.shared.weather = response.list
 						self.weatherForCurrentCity = response.list
 						guard let current = response.list.first else { return }
 						cityName.onNext(strCityName)

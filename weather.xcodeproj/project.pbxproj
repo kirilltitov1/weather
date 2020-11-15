@@ -34,7 +34,6 @@
 		EFADFAC6255F0FE400FDC5C3 /* AdditionalCityInfo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFADFAC5255F0FE400FDC5C3 /* AdditionalCityInfo.storyboard */; };
 		EFADFAD1255F144100FDC5C3 /* CitySearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFADFAD0255F144100FDC5C3 /* CitySearchView.swift */; };
 		EFADFAD9255F1C8A00FDC5C3 /* CitySearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFADFAD8255F1C8A00FDC5C3 /* CitySearchView.xib */; };
-		EFE0BEC6256024F000D9B7D5 /* WeatherSingletone.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE0BEC5256024F000D9B7D5 /* WeatherSingletone.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,7 +92,6 @@
 		EFADFAC5255F0FE400FDC5C3 /* AdditionalCityInfo.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AdditionalCityInfo.storyboard; sourceTree = "<group>"; };
 		EFADFAD0255F144100FDC5C3 /* CitySearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySearchView.swift; sourceTree = "<group>"; };
 		EFADFAD8255F1C8A00FDC5C3 /* CitySearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CitySearchView.xib; sourceTree = "<group>"; };
-		EFE0BEC5256024F000D9B7D5 /* WeatherSingletone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSingletone.swift; sourceTree = "<group>"; };
 		F0C5D7C04723243BD6AF6411 /* Pods-weather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-weather.debug.xcconfig"; path = "Target Support Files/Pods-weather/Pods-weather.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -199,7 +197,6 @@
 		EF4DDF89255EA94700B4F277 /* BusinessLogic */ = {
 			isa = PBXGroup;
 			children = (
-				EFE0BEC5256024F000D9B7D5 /* WeatherSingletone.swift */,
 				EF4DDFA8255EAEF000B4F277 /* СitySearch */,
 				EFADFAAF255F0A8800FDC5C3 /* AdditionalInfo */,
 			);
@@ -644,7 +641,6 @@
 				EFACF10A255F30990087264B /* AdditionalCityInfoModel.swift in Sources */,
 				EF4DDF93255EA9A300B4F277 /* BaseCoordinator.swift in Sources */,
 				EF68C60B255E9E8E00EE331D /* SceneDelegate.swift in Sources */,
-				EFE0BEC6256024F000D9B7D5 /* WeatherSingletone.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

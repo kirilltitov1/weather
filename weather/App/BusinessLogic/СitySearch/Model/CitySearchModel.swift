@@ -35,6 +35,7 @@ protocol WeatherServiceProtocol {
 
 //let cacher = ResponseCacher(behavior: .cache)
 //https://github.com/Alamofire/Alamofire/blob/master/Documentation/AdvancedUsage.md#cachedresponsehandler
+//URLCache
 let responseCache = NSCache<NSString, AnyObject>()
 final class CitySearchModel: WeatherServiceProtocol {
 
