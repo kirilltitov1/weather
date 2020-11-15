@@ -16,7 +16,7 @@ class CitySearchViewController: UIViewController,
 	let disposeBag = DisposeBag()
 
 	override func viewWillAppear(_ animated: Bool) {
-		self.navigationController?.setNavigationBarHidden(true, animated: true)
+		self.navigationController?.setNavigationBarHidden(true, animated: false)
 	}
 	
     override func viewDidLoad() {
