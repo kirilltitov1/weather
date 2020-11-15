@@ -12,22 +12,22 @@ import RxCocoa
 protocol AdditionalCityInfoViewModelProtocol {
 	associatedtype Input
 	associatedtype Output
-
+	
 	func transform(input: Input) -> Output
 }
 
 final class AdditionalCityInfoViewModel {
-//	var weatherForCurrentCity: [CityResponse.List] = []
+	private var weatherReport: [CityWeatherReport.List] = []
+	
 	let disposeBag = DisposeBag()
-
+	
+	init(weatherReport: [CityWeatherReport.List]) {
+		self.weatherReport = weatherReport
+	}
+	
 	func transform(input: Input) -> Output {
-		let weatherForCurrentCity = BehaviorSubject<[CityResponse.List]>(value: [])
-		CitySearchModel.loadWeather(byStringCity: input.city)
-			.subscribeOn(MainScheduler.instance)
-			.subscribe { response in
-				weatherForCurrentCity.onNext(response.list)
-			}.disposed(by: disposeBag)
-		return Output(weatherForCurrentCity: weatherForCurrentCity)
+		let weatherReport = BehaviorSubject<[CityWeatherReport.List]>(value: self.weatherReport)
+		return Output(weatherForCurrentCity: weatherReport)
 	}
 }
 
@@ -36,6 +36,6 @@ extension AdditionalCityInfoViewModel: AdditionalCityInfoViewModelProtocol {
 		let city: String
 	}
 	struct Output {
-		let weatherForCurrentCity: BehaviorSubject<[CityResponse.List]>
+		let weatherForCurrentCity: BehaviorSubject<[CityWeatherReport.List]>
 	}
 }

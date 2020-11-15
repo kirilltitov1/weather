@@ -28,7 +28,7 @@ final class CitySearchCoordinator: BaseCoordinator {
 			.subscribe { [weak self] _ in
 				self?.goToAdditionalInfo(
 					tittle: citySearchViewController.citySearchView.cityName.text,
-					currentCity: citySearchViewController.viewModel.weatherForCurrentCity
+					weatherReport: citySearchViewController.viewModel.weatherForCurrentCity
 				)
 			}.disposed(by: disposeBag)
 		
@@ -37,13 +37,13 @@ final class CitySearchCoordinator: BaseCoordinator {
 }
 
 protocol AdditioalCityInfoListener {
-	func goToAdditionalInfo(tittle: String?, currentCity: [CityResponse.List])
+	func goToAdditionalInfo(tittle: String?, weatherReport: [CityWeatherReport.List])
 }
 
 extension CitySearchCoordinator: AdditioalCityInfoListener {
-	func goToAdditionalInfo(tittle: String?, currentCity: [CityResponse.List]) {
+	func goToAdditionalInfo(tittle: String?, weatherReport: [CityWeatherReport.List]) {
 		let coordinator = AdditionalCityInfoCoordinator()
-		coordinator.currentCity = currentCity
+		coordinator.weatherReport = weatherReport
 		coordinator.title = tittle
 		coordinator.navigationController = self.navigationController
 		self.start(coordinator: coordinator)

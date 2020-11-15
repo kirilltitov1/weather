@@ -14,7 +14,7 @@ class AdditionalCityInfoViewController: UIViewController {
 	let CITY_CELL_IDENTIFIER = "AdditionalCityInfo"
 
 	var viewModel: AdditionalCityInfoViewModel!
-	var weather: [CityResponse.List] = []
+	var weatherReport: [CityWeatherReport.List] = []
 	
 	let disposeBag = DisposeBag()
 	
@@ -35,7 +35,7 @@ class AdditionalCityInfoViewController: UIViewController {
 		output.weatherForCurrentCity
 			.subscribeOn(MainScheduler.instance)
 			.subscribe { respose in
-				self.weather = respose.element ?? []
+				self.weatherReport = respose.element ?? []
 				self.tableView.reloadData()
 			}.disposed(by: disposeBag)
 	}
@@ -43,7 +43,7 @@ class AdditionalCityInfoViewController: UIViewController {
 
 extension AdditionalCityInfoViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return weather.count
+		return weatherReport.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -52,8 +52,8 @@ extension AdditionalCityInfoViewController: UITableViewDelegate, UITableViewData
 			return cell
 		}
 		cell.setup(
-			icon: weather[indexPath.row].weather.first!.icon,
-			temp: weather[indexPath.row].main.temp
+			icon: weatherReport[indexPath.row].weather.first!.icon,
+			temp: weatherReport[indexPath.row].main.temp
 		)
 		return cell
 	}
