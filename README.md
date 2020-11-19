@@ -22,7 +22,7 @@ RxCocoa
 Кеширование:  
 Есть несколько видов кеширования ответа от сервера:  
 
-- NSCache [подробнее тут](https://www.hackingwithswift.com/example-code/system/how-to-cache-data-using-nscache)
+- NSCache (использовал этот) [подробнее тут](https://www.hackingwithswift.com/example-code/system/how-to-cache-data-using-nscache)
 
 - ULRCache [подробнее тут](https://developer.apple.com/documentation/foundation/urlcache)
 
