@@ -40,7 +40,6 @@ class CitySearchView: UIView {
 			searchBar.translatesAutoresizingMaskIntoConstraints = false
 			searchBar.backgroundColor = .white
 			searchBar.barTintColor = .white
-			searchBar.tintColor = .white
 		}
 	}
 	
