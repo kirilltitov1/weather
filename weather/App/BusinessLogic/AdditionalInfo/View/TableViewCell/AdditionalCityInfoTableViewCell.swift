@@ -9,12 +9,43 @@ import UIKit
 
 class AdditionalCityInfoTableViewCell: UITableViewCell {
 	
-	@IBOutlet weak var icon: UIImageView!
-	@IBOutlet weak var temp: UILabel!
-	@IBOutlet weak var dt: UILabel!
-	@IBOutlet weak var humidity: UILabel!
-	@IBOutlet weak var pressure: UILabel!
-	@IBOutlet weak var feelsLike: UILabel!
+	@IBOutlet weak var icon: UIImageView! {
+		didSet {
+			icon.translatesAutoresizingMaskIntoConstraints = false
+			icon.backgroundColor = .white
+			icon.bounds.size = CGSize(width: 100, height: 100)
+		}
+	}
+	@IBOutlet weak var temp: UILabel! {
+		didSet {
+			temp.translatesAutoresizingMaskIntoConstraints = false
+			temp.backgroundColor = .white
+		}
+	}
+	@IBOutlet weak var dt: UILabel!{
+		didSet {
+			dt.translatesAutoresizingMaskIntoConstraints = false
+			dt.backgroundColor = .white
+		}
+	}
+	@IBOutlet weak var humidity: UILabel!{
+		didSet {
+			humidity.translatesAutoresizingMaskIntoConstraints = false
+			humidity.backgroundColor = .white
+		}
+	}
+	@IBOutlet weak var pressure: UILabel!{
+		didSet {
+			pressure.translatesAutoresizingMaskIntoConstraints = false
+			pressure.backgroundColor = .white
+		}
+	}
+	@IBOutlet weak var feelsLike: UILabel!{
+		didSet {
+			feelsLike.translatesAutoresizingMaskIntoConstraints = false
+			feelsLike.backgroundColor = .white
+		}
+	}
 	
 	override func awakeFromNib() {
 		super.awakeFromNib()

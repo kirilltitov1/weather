@@ -70,5 +70,6 @@ extension AdditionalCityInfoViewController: UITableViewDelegate, UITableViewData
 	func regCell() {
 		let nib = UINib.init(nibName: "AdditionalCityInfoTableViewCell", bundle: nil)
 		self.tableView.register(nib, forCellReuseIdentifier: CITY_CELL_IDENTIFIER)
+		self.tableView.rowHeight = 100
 	}
 }
