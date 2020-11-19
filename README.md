@@ -19,8 +19,8 @@ RxSwift
 RxCocoa
 
 Кеширование и оптимизация:  
-Кеширование:
-Есть несколько видов кеширования ответа от сервера:
+Кеширование:  
+Есть несколько видов кеширования ответа от сервера:  
 
 - NSCache [подробнее тут](https://www.hackingwithswift.com/example-code/system/how-to-cache-data-using-nscache)
 
