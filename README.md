@@ -27,3 +27,10 @@ RxCocoa
 - ULRCache [подробнее тут](https://developer.apple.com/documentation/foundation/urlcache)
 
 - Alamofire [подробнее тут](https://github.com/Alamofire/Alamofire/blob/master/Documentation/AdvancedUsage.md#cachedresponsehandler)
+Оптимизация:  
+- Table:  
+  - Повторно используемый объект ячейки табличного представления для указанного идентификатора повторно используется и добавляется в таблицу.  
+- Layout:  
+  - Для настройки ячейки используется отдельная функция.  
+  - translatesAutoresizingMaskIntoConstraints = false.  
+  - .backgroundColor != clear.  
