@@ -45,12 +45,10 @@ class AdditionalCityInfoViewController: UIViewController {
 			.subscribeOn(MainScheduler.instance)
 			.subscribe { [weak self] respose in
 				guard let self = self else { return }
-				self.weatherReport = respose
+				self.weatherReport = respose.element
 				self.title = self.weatherReport.city.country + " " + self.weatherReport.city.name
 				self.tableView.reloadData()
-			} onDisposed: {
-				print("🏙➕")
-			} .disposed(by: disposeBag)
+			}.disposed(by: disposeBag)
 	}
 }
 
