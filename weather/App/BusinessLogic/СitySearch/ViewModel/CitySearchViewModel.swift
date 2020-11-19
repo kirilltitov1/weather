@@ -18,42 +18,33 @@ protocol CitySearchViewModelProtocol {
 
 final class CitySearchViewModel {
 	private var disposeBag = DisposeBag()
+	private let errorHandler: SearchCityErrorParser
 	private let fetchWeatherReportService: FetchWeatherReportProtocol
+	var weatherForCurrentCity: CityWeatherReport!
 	
-	var weatherForCurrentCity: [CityWeatherReport.List] = []
-	
-	init(
-		fetchWeatherReportService: FetchWeatherReportProtocol = CityWeatherReportService()
-	) {
-		self.fetchWeatherReportService = fetchWeatherReportService
+	init() {
+		self.errorHandler = ErrorHandler()
+		self.fetchWeatherReportService = CityWeatherReportService(errorParser: errorHandler)
 	}
 	func transform(input: Input) -> Output {
 		let cityName = BehaviorSubject<String>(value: "Input city")
 		let cityTemperature = BehaviorSubject<String>(value: "")
 		let weatherStrIcon = BehaviorSubject<String>(value: "")
 		
-		input.cityName.distinctUntilChanged().debug("cityName").subscribe { [weak self] strCityName in
-			guard let self = self else { return }
-			self.fetchWeatherReportService
-				.fetchCityWeatherReport(byStringCity: strCityName.element ?? "")
-				.debug("loadWeather")
-				.observeOn(MainScheduler.instance)
-				.subscribe { [weak self] weatherReport in
-					guard let self = self else { return }
-					self.weatherForCurrentCity = weatherReport.list
-					guard let current = weatherReport.list.first else { return }
-					cityName.onNext(strCityName.element ?? "")
-					cityTemperature.onNext(String(current.main.temp))
-					guard let weather = current.weather.first else { return }
-					weatherStrIcon.onNext(weather.icon)
-				} onError: { [weak self] error in
-					guard let self = self else { return }
-					self.weatherForCurrentCity = []
-					cityName.onNext("...")
-					cityTemperature.onNext("...")
-					weatherStrIcon.onNext("...")
-				}.disposed(by: self.disposeBag)
-		}.disposed(by: disposeBag)
+		input.cityName.debug("🏙").flatMap {
+			self.fetchWeatherReportService.fetchCityWeatherReport(strCityName: $0)}
+			.debug("☂️")
+			.observeOn(MainScheduler.instance)
+			.subscribe { weatherReport in
+				self.weatherForCurrentCity = weatherReport
+				guard let current = weatherReport.list.first else { return }
+				cityName.onNext(weatherReport.city.name)
+				cityTemperature.onNext(String(Int(current.main.temp)))
+				guard let weather = current.weather.first else { return }
+				weatherStrIcon.onNext(weather.icon)
+			} onError: { error in
+				
+			}.disposed(by: disposeBag)
 		
 		let isLoginButtonEnabled = Observable
 			.combineLatest(

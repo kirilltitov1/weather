@@ -17,16 +17,16 @@ protocol AdditionalCityInfoViewModelProtocol {
 }
 
 final class AdditionalCityInfoViewModel {
-	private var weatherReport: [CityWeatherReport.List] = []
+	private var weatherReport: CityWeatherReport
 	
 	let disposeBag = DisposeBag()
 	
-	init(weatherReport: [CityWeatherReport.List]) {
+	init(weatherReport: CityWeatherReport) {
 		self.weatherReport = weatherReport
 	}
 	
 	func transform(input: Input) -> Output {
-		let weatherReport = BehaviorSubject<[CityWeatherReport.List]>(value: self.weatherReport)
+		let weatherReport = BehaviorSubject<CityWeatherReport>(value: self.weatherReport)
 		return Output(weatherForCurrentCity: weatherReport)
 	}
 }
@@ -36,6 +36,6 @@ extension AdditionalCityInfoViewModel: AdditionalCityInfoViewModelProtocol {
 		let city: String
 	}
 	struct Output {
-		let weatherForCurrentCity: BehaviorSubject<[CityWeatherReport.List]>
+		let weatherForCurrentCity: BehaviorSubject<CityWeatherReport>
 	}
 }

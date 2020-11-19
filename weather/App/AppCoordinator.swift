@@ -20,6 +20,7 @@ final class AppCoordinator: BaseCoordinator {
 
 		let coordinator = CitySearchCoordinator()
 		coordinator.navigationController = self.navigationController
+
 		self.start(coordinator: coordinator)
 	}
 }

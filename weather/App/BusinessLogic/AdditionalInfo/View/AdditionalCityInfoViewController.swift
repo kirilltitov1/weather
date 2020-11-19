@@ -14,12 +14,17 @@ class AdditionalCityInfoViewController: UIViewController {
 	let CITY_CELL_IDENTIFIER = "AdditionalCityInfo"
 
 	var viewModel: AdditionalCityInfoViewModel!
-	var weatherReport: [CityWeatherReport.List] = []
+	var weatherReport: CityWeatherReport!
 	
 	let disposeBag = DisposeBag()
 	
 	@IBOutlet weak var tableView: UITableView!
-
+	
+	override func viewDidDisappear(_ animated: Bool) {
+		self.viewModel = nil
+		self.weatherReport = nil
+	}
+	
 	override func viewWillLayoutSubviews() {
 		self.navigationController?.setNavigationBarHidden(false, animated: true)
 	}
@@ -34,20 +39,24 @@ class AdditionalCityInfoViewController: UIViewController {
 		self.setUpBindings()
     }
 	func setUpBindings() {
-		let input = AdditionalCityInfoViewModel.Input(city: self.title ?? "")
+		let input = AdditionalCityInfoViewModel.Input(city: self.weatherReport.city.name)
 		let output = viewModel.transform(input: input)
-		output.weatherForCurrentCity
+		output.weatherForCurrentCity.debug("🏙➕")
 			.subscribeOn(MainScheduler.instance)
-			.subscribe { respose in
-				self.weatherReport = respose.element ?? []
+			.subscribe { [weak self] respose in
+				guard let self = self else { return }
+				self.weatherReport = respose
+				self.title = self.weatherReport.city.country + " " + self.weatherReport.city.name
 				self.tableView.reloadData()
-			}.disposed(by: disposeBag)
+			} onDisposed: {
+				print("🏙➕")
+			} .disposed(by: disposeBag)
 	}
 }
 
 extension AdditionalCityInfoViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return weatherReport.count
+		return weatherReport.list.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,10 +64,7 @@ extension AdditionalCityInfoViewController: UITableViewDelegate, UITableViewData
 			let cell = AdditionalCityInfoTableViewCell()
 			return cell
 		}
-		cell.setup(
-			icon: weatherReport[indexPath.row].weather.first!.icon,
-			temp: weatherReport[indexPath.row].main.temp
-		)
+		cell.setup(currentWeather: weatherReport.list[indexPath.row])
 		return cell
 	}
 	func regCell() {

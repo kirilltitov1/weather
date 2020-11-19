@@ -11,7 +11,8 @@ import RxSwift
 //import RxCocoa
 
 protocol FetchWeatherReportProtocol {
-	func fetchCityWeatherReport(byStringCity city: String) -> Single<CityWeatherReport>
+	var errorParser: SearchCityErrorParser { get }
+	func fetchCityWeatherReport(strCityName city: String) -> Single<CityWeatherReport>
 }
 
 //let cacher = ResponseCacher(behavior: .cache)
@@ -19,7 +20,13 @@ protocol FetchWeatherReportProtocol {
 //URLCache
 let responseCache = NSCache<NSString, AnyObject>()
 class CityWeatherReportService: FetchWeatherReportProtocol {
-	func fetchCityWeatherReport(byStringCity city: String) -> Single<CityWeatherReport> {
+	let errorParser: SearchCityErrorParser
+
+	init(errorParser: SearchCityErrorParser) {
+		self.errorParser = errorParser
+	}
+	
+	func fetchCityWeatherReport(strCityName city: String) -> Single<CityWeatherReport> {
 		let url = Constants.Path.weathermap
 		let parameters: [String : String] = ["q" : city,
 											 "appid" : Constants.appid,
@@ -31,22 +38,21 @@ class CityWeatherReportService: FetchWeatherReportProtocol {
 			// response from cache
 			if let responseFromCache = responseCache.object(forKey: city as NSString ) as? CityWeatherReport {
 				single(.success(responseFromCache))
-				return Disposables.create()
-			}
-			
-			AF.request(url, method: .get, parameters: parameters)
-				.responseDecodable(of: CityWeatherReport.self) { response in
-					switch response.result {
-					case let .success(success):
-						// response into cache
-						DispatchQueue.main.async {
-							responseCache.setObject(success, forKey: city as NSString)
+			} else {
+				AF.request(url, method: .get, parameters: parameters)
+					.responseDecodable(of: CityWeatherReport.self) { response in
+						switch response.result {
+						case let .success(success):
+							// response into cache
+							DispatchQueue.main.async {
+								responseCache.setObject(success, forKey: city as NSString)
+								single(.success(success))
+							}
+						case let .failure(error):
+							self.errorParser.parser(searchCityError: error)
 						}
-						single(.success(success))
-					case let .failure(error):
-						single(.error(error))
 					}
-				}
+			}
 			return Disposables.create()
 		}
 	}

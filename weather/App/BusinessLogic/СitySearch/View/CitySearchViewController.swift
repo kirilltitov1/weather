@@ -31,6 +31,7 @@ class CitySearchViewController: UIViewController,
 		let input = CitySearchViewModel.Input(
 			cityName: citySearchView.searchBar.rx.text
 				.orEmpty
+				.distinctUntilChanged()
 				.debounce(DispatchTimeInterval.milliseconds(500),
 						  scheduler: MainScheduler.instance)
 				.filter { !$0.isEmpty }
@@ -44,7 +45,7 @@ class CitySearchViewController: UIViewController,
 			.bind(to: citySearchView.cityTemperature.rx.text)
 			.disposed(by: disposeBag)
 		
-		output.weatherIcon.debug("weatherIcon").subscribe { [weak self] strImage in
+		output.weatherIcon.subscribe { [weak self] strImage in
 			self?.citySearchView.weatherIcon
 				.loadImageUsingUrlString(urlString: String(Constants.Path.weathermapIcon + strImage + "@2x.png"))
 		}.disposed(by: disposeBag)
