@@ -2,7 +2,7 @@
 
 Ссылка на демонстрацию работоспособности ПО:  
 
-[✅ (click me)](https://youtu.be/Kp8MyCcc_C8)
+[✅ (click me)](https://youtu.be/J6mo18MSn64)
 
 Ссылка на демонстрацию утечек памяти:  
 
@@ -18,3 +18,12 @@ Alamofire
 RxSwift
 RxCocoa
 
+Кеширование и оптимизация:
+Кеширование:
+Есть несколько видов кеширования ответа от сервера:
+
+- NSCache [подробнее тут] (https://www.hackingwithswift.com/example-code/system/how-to-cache-data-using-nscache)
+
+- ULRCache [подробнее тут] (https://developer.apple.com/documentation/foundation/urlcache)
+
+- Alamofire [подробнее тут] (https://github.com/Alamofire/Alamofire/blob/master/Documentation/AdvancedUsage.md#cachedresponsehandler)
