@@ -35,3 +35,4 @@ RxCocoa
   - Для настройки ячейки используется отдельная функция.  
   - translatesAutoresizingMaskIntoConstraints = false.  
   - .backgroundColor != clear.  
+  - используются картинки 50 и 100 px 
