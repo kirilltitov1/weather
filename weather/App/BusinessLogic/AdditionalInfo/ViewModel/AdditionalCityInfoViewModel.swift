@@ -25,7 +25,7 @@ final class AdditionalCityInfoViewModel {
 		self.weatherReport = weatherReport
 	}
 	
-	func transform(input: Input) -> Output {
+	public func transform(input: Input) -> Output {
 		let weatherReport = BehaviorSubject<CityWeatherReport>(value: self.weatherReport)
 		return Output(weatherForCurrentCity: weatherReport)
 	}

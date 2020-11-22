@@ -18,8 +18,8 @@ protocol FetchWeatherReportProtocol {
 //let cacher = ResponseCacher(behavior: .cache)
 //https://github.com/Alamofire/Alamofire/blob/master/Documentation/AdvancedUsage.md#cachedresponsehandler
 //URLCache
-let responseCache = NSCache<NSString, AnyObject>()
-class CityWeatherReportService: FetchWeatherReportProtocol {
+private let responseCache = NSCache<NSString, AnyObject>()
+public class CityWeatherReportService: FetchWeatherReportProtocol {
 	let errorParser: SearchCityErrorParser
 
 	init(errorParser: SearchCityErrorParser) {

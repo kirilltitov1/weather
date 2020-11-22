@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class AdditionalCityInfoViewController: UIViewController {
+final class AdditionalCityInfoViewController: UIViewController {
 	
 	let CITY_CELL_IDENTIFIER = "AdditionalCityInfo"
 
@@ -20,9 +20,9 @@ class AdditionalCityInfoViewController: UIViewController {
 	
 	@IBOutlet weak var tableView: UITableView!
 	
-	override func viewDidDisappear(_ animated: Bool) {
-		self.viewModel = nil
-		self.weatherReport = nil
+	required init?(coder: NSCoder) {
+		super.init(coder: coder)
+		self.setupNavBar()
 	}
 	
 	override func viewWillLayoutSubviews() {
@@ -38,7 +38,13 @@ class AdditionalCityInfoViewController: UIViewController {
 		self.regCell()
 		self.setUpBindings()
     }
-	func setUpBindings() {
+	
+	private func setupNavBar() {
+		self.navigationItem
+			.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: nil)
+	}
+	
+	private func setUpBindings() {
 		let input = AdditionalCityInfoViewModel.Input(city: self.weatherReport.city.name)
 		let output = viewModel.transform(input: input)
 		output.weatherForCurrentCity.debug("🏙➕")
@@ -65,7 +71,7 @@ extension AdditionalCityInfoViewController: UITableViewDelegate, UITableViewData
 		cell.setup(currentWeather: weatherReport.list[indexPath.row])
 		return cell
 	}
-	func regCell() {
+	private func regCell() {
 		let nib = UINib.init(nibName: "AdditionalCityInfoTableViewCell", bundle: nil)
 		self.tableView.register(nib, forCellReuseIdentifier: CITY_CELL_IDENTIFIER)
 		self.tableView.rowHeight = 100

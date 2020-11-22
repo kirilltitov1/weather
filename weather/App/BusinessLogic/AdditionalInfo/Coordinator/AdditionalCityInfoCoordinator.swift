@@ -26,8 +26,14 @@ final class AdditionalCityInfoCoordinator: BaseCoordinator {
 		additionalCityInfoViewController.weatherReport = weatherReport
 		
 		// Coordinator subscribes to events and notifies parentCoordinator
-		additionalCityInfoViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(backDidPressed))
-
+		additionalCityInfoViewController
+			.navigationItem
+			.leftBarButtonItem?
+			.rx.tap.debug("🧭")
+			.subscribe(onNext: { [weak self] item in
+				self?.backDidPressed()
+			}).disposed(by: disposeBag)
+		
 		self.navigationController.viewControllers.append(additionalCityInfoViewController)
 	}
 }

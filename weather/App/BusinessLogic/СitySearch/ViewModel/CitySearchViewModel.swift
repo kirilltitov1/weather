@@ -26,7 +26,7 @@ final class CitySearchViewModel {
 		self.errorHandler = ErrorHandler()
 		self.fetchWeatherReportService = CityWeatherReportService(errorParser: errorHandler)
 	}
-	func transform(input: Input) -> Output {
+	public func transform(input: Input) -> Output {
 		let cityName = BehaviorSubject<String>(value: "Input city")
 		let cityTemperature = BehaviorSubject<String>(value: "")
 		let weatherStrIcon = BehaviorSubject<String>(value: "")

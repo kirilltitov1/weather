@@ -13,7 +13,7 @@ class CitySearchViewController: UIViewController,
 	
 	var viewModel: CitySearchViewModel!
 	var citySearchView: CitySearchView!
-	let disposeBag = DisposeBag()
+	private let disposeBag = DisposeBag()
 
 	override func viewWillAppear(_ animated: Bool) {
 		self.navigationController?.setNavigationBarHidden(true, animated: false)
@@ -27,7 +27,7 @@ class CitySearchViewController: UIViewController,
 		self.citySearchView.searchBar.delegate = self
 		self.setUpBindings()
     }
-	func setUpBindings() {
+	private func setUpBindings() {
 		let input = CitySearchViewModel.Input(
 			cityName: citySearchView.searchBar.rx.text
 				.orEmpty
