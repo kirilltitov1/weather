@@ -8,6 +8,8 @@
 
 [🌀 (click me)](https://youtu.be/9ZD1m8bqP8g)
 
+Копия проекта на SPM:  
+https://github.com/kirilltitov1/weather_SPM
 
 
 Архитектура:
